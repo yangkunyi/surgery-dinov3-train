@@ -423,7 +423,7 @@ detector = torch.hub.load(REPO_DIR, 'dinov3_vit7b16_de', source="local", weights
 segmentor = torch.hub.load(REPO_DIR, 'dinov3_vit7b16_ms', source="local", weights=<SEGMENTOR/CHECKPOINT/URL/OR/PATH>, backbone_weights=<BACKBONE/CHECKPOINT/URL/OR/PATH>)
 ```
 
-Full example code of segmentator an image
+Full example code of segmentator on an image
 
 ```python
 import sys
@@ -706,7 +706,7 @@ PYTHONPATH=${PWD} python -m dinov3.run.submit dinov3/eval/text/train_dinotxt.py 
   output-dir=<PATH/TO/OUTPUT/DIR>
 ```
 Launching the above trains text alignment on 4 nodes with 8 gpus each (32 gpus in total).
-Please note that the text alignment model in the DINOv3 paper was trained on a private dataset and here we have given an example config in ```dinov3/eval/text/configs/dinov3_vitl_text.yaml``` using ```CocoCaptions``` dataset for illustration purpose.
+Please note that the text alignment model in the DINOv3 paper was trained on a private dataset and here we have given an example config in ```dinov3/eval/text/configs/dinov3_vitl_text.yaml``` using ```CocoCaptions``` dataset for illustration purposes.
 Please adapt the provided ```CocoCaptions``` dataset class, the dataset can be found [here](https://www.kaggle.com/datasets/nikhil7280/coco-image-caption)  
 
 ## License
