@@ -82,10 +82,10 @@ model = torch.hub.load(
 # - dinov3_vitl16
 # - dinov3_vith16plus
 # - dinov3_vit7b16
-# - dinov3_convext_tiny
-# - dinov3_convext_small
-# - dinov3_convext_base
-# - dinov3_convext_large
+# - dinov3_convnext_tiny
+# - dinov3_convnext_small
+# - dinov3_convnext_base
+# - dinov3_convnext_large
 
 # For instance
 dinov3_vits16 = torch.hub.load(
