@@ -33,7 +33,7 @@ class DetectorWithProcessor(torch.nn.Module):
 
     def forward(self, samples: list[torch.Tensor]):
         outputs = self.detector(samples)
-        sizes_tensor = torch.tensor([sample.shape[1:] for sample in samples])  # N * [3, H, W]
+        sizes_tensor = torch.tensor([sample.shape[1:] for sample in samples], device=samples[0].device)  # N * [3, H, W]
         return self.postprocessor(outputs, target_sizes=sizes_tensor, original_target_sizes=sizes_tensor)
 
 
