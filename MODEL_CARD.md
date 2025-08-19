@@ -219,9 +219,9 @@ The reader is referred to the associated paper for details on the evaluation pro
     <td align="right">91.1</td>
     <td align="right">91.1</td>
     <td align="right">72.8</td>
-    <td align="right">60.7</td>
     <td align="right">55.9</td>
     <td align="right">0.309</td>
+    <td align="right">79.7</td>
     <td align="right">64.4</td>
     <td align="right">58.7</td>
   </tr>
