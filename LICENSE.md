@@ -1,6 +1,6 @@
 # DINOv3 License
 
-*Last Updated: August 14, 2025*
+*Last Updated: August 19, 2025*
 
 **“Agreement”** means the terms and conditions for use, reproduction, distribution and modification of the DINO Materials set forth herein.
 
@@ -55,7 +55,7 @@ b. If you institute litigation or other proceedings against Meta or any entity (
 
 ## 6. Term and Termination.
 
-The term of this Agreement will commence upon your acceptance of this Agreement or access to the DINO Materials and will continue in full force and effect until terminated in accordance with the terms and conditions herein. Meta may terminate this Agreement if you are in breach of any term or condition of this Agreement. Upon termination of this Agreement, you shall delete and cease use of the DINO Materials. Sections 5, 6 and 9 shall survive the termination of this Agreement.
+The term of this Agreement will commence upon your acceptance of this Agreement or access to the DINO Materials and will continue in full force and effect until terminated in accordance with the terms and conditions herein. Meta may terminate this Agreement if you are in breach of any term or condition of this Agreement. Upon termination of this Agreement, you shall delete and cease use of the DINO Materials. Sections 3, 4 and 7 shall survive the termination of this Agreement.
 
 ## 7. Governing Law and Jurisdiction.
 
