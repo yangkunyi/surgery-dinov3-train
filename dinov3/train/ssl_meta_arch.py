@@ -482,7 +482,7 @@ class SSLMetaArch(nn.Module):
 
             with torch.no_grad():
                 backbone_out = self.gram_teacher.backbone(images, is_training=True)
-            teacher_patches = backbone_out.x_norm_patchtokens  # [n_crops * B, P_T, D]
+            teacher_patches = backbone_out["x_norm_patchtokens"]  # [n_crops * B, P_T, D]
 
             # Downsample Gram teacher features if needed
             if teacher_patches.shape[1] != student_patches.shape[1]:
