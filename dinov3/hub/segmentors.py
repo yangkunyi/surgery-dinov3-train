@@ -76,7 +76,7 @@ def dinov3_vit7b16_ms(
     return _make_dinov3_m2f_segmentor(
         backbone_name="dinov3_vit7b16",
         pretrained=pretrained,
-        weights=weights,
+        segmentor_weights=weights,
         backbone_weights=backbone_weights,
         check_hash=check_hash,
         autocast_dtype=autocast_dtype,
