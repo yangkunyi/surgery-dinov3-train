@@ -100,7 +100,6 @@ student:
   proj_bias: true
   ffn_bias: true
   norm_layer: layernormbf16
-  resume_from_teacher_chkpt: ''
   n_storage_tokens: 4
   untie_cls_and_patch_norms: false
   untie_global_and_local_cls_norm: true
