@@ -22,7 +22,7 @@ class DINOTxtWeights(Enum):
 def dinov3_vitl16_dinotxt_tet1280d20h24l(
     *,
     pretrained: bool = True,
-    dinotxt_weights: Union[DINOTxtWeights, str] = DINOTxtWeights.LVTD2300M,
+    weights: Union[DINOTxtWeights, str] = DINOTxtWeights.LVTD2300M,
     backbone_weights: Union[BackboneWeights, str] = BackboneWeights.LVD1689M,
     bpe_path_or_url: str = "https://dl.fbaipublicfiles.com/dinov3/thirdparty/bpe_simple_vocab_16e6.txt.gz",
     check_hash: bool = False,
@@ -69,12 +69,12 @@ def dinov3_vitl16_dinotxt_tet1280d20h24l(
     if pretrained:
         model.visual_model.backbone = vision_backbone
         model.eval()
-        if type(dinotxt_weights) is DINOTxtWeights and dinotxt_weights == DINOTxtWeights.LVTD2300M:
+        if type(weights) is DINOTxtWeights and weights == DINOTxtWeights.LVTD2300M:
             url = f"{DINOV3_BASE_URL}/dinov3_vitl16/dinov3_vitl16_dinotxt_vision_head_and_text_encoder-a442d8f5.pth"
-        elif type(dinotxt_weights) is DINOTxtWeights and dinotxt_weights != DINOTxtWeights.LVTD2300M:
-            raise AssertionError(f"Unsuported weights for DINOTxt: {dinotxt_weights}")
+        elif type(weights) is DINOTxtWeights and weights != DINOTxtWeights.LVTD2300M:
+            raise AssertionError(f"Unsuported weights for DINOTxt: {weights}")
         else:
-            url = convert_path_or_url_to_url(dinotxt_weights)
+            url = convert_path_or_url_to_url(weights)
         vision_head_and_text_encoder_state_dict = torch.hub.load_state_dict_from_url(url, check_hash=check_hash)
         model.load_state_dict(vision_head_and_text_encoder_state_dict, strict=False)
     else:
