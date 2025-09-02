@@ -477,7 +477,7 @@ def dinov3_vit7b16(
         num_heads=32,
         ffn_ratio=3,
         qkv_bias=False,
-        drop_path_rate=0.4,
+        drop_path_rate=0.0,
         layerscale_init=1.0e-05,
         norm_layer="layernormbf16",
         ffn_layer="swiglu64",
