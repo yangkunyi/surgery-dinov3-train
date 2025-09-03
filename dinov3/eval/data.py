@@ -14,7 +14,7 @@ from torchvision.datasets.vision import StandardTransform
 
 from dinov3.eval.utils import extract_features
 
-logger = logging.getLogger("fairvit")
+logger = logging.getLogger("dinov3")
 
 
 class SubsetEx(Subset):

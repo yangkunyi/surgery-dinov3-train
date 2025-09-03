@@ -36,7 +36,7 @@ from dinov3.eval.utils import save_results as default_save_results_func
 from dinov3.run.init import job_context
 from dinov3.utils.dtype import as_torch_dtype
 
-logger = logging.getLogger("fairvit")
+logger = logging.getLogger("dinov3")
 
 
 RESULTS_FILENAME = "results-log-regression.csv"

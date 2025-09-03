@@ -39,7 +39,7 @@ import torch.distributed.checkpoint.filesystem as dcpfs
 import torch.distributed.checkpoint.state_dict as dcpsd
 from torch.distributed.checkpoint.stateful import Stateful
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("dinov3")
 
 
 class CheckpointRetentionPolicy(Enum):

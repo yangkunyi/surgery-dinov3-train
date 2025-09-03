@@ -19,7 +19,7 @@ from dinov3.data import DatasetWithEnumeratedTargets, SamplerType, make_data_loa
 from dinov3.eval.accumulators import NoOpAccumulator, ResultsAccumulator
 from dinov3.logging import MetricLogger
 
-logger = logging.getLogger("fairvit")
+logger = logging.getLogger("dinov3")
 
 
 class LossType(Enum):

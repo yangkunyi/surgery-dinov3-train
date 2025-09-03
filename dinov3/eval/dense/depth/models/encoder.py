@@ -10,7 +10,7 @@ from typing import Sequence, Union
 from dinov3.eval.dense.depth.models.embed import CenterPadding, StretchToMultiple
 from torch import Tensor, nn
 
-logger = logging.getLogger("fairvit")
+logger = logging.getLogger("dinov3")
 
 
 class BackboneLayersSet(Enum):
