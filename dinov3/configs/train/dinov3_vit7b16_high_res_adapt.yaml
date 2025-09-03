@@ -1,5 +1,5 @@
 MODEL:
-  META_ARCHITECTURE: SSLMetaArchCompilableGram
+  META_ARCHITECTURE: SSLMetaArch
   DEVICE: cuda
   WEIGHTS: ''
   DTYPE: float32
