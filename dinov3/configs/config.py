@@ -205,7 +205,7 @@ def setup_job(
         rank = distributed.get_rank()
         fix_random_seeds(seed + rank)
 
-    logger = logging.getLogger("fairvit")
+    logger = logging.getLogger("dinov3")
     logger.info("git:\n  {}\n".format(get_sha()))
 
     # Log some python info
