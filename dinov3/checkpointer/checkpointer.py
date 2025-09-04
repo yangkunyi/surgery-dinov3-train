@@ -268,8 +268,8 @@ def _is_int(s: str) -> bool:
 def init_fsdp_model_from_checkpoint(
     model: torch.nn.Module,
     checkpoint_path: str,
-    skip_load_prefixes: List[str] | None = None,
-    prefixes_not_sharded: List[str] | None = None,
+    skip_load_keys: List[str] | None = None,
+    keys_not_sharded: List[str] | None = None,
     process_group: dist.ProcessGroup = None,
 ):
     if not Path(checkpoint_path).is_dir():  # PyTorch standard checkpoint
@@ -286,16 +286,19 @@ def init_fsdp_model_from_checkpoint(
         else:
             world_mesh = DeviceMesh.from_group(process_group, "cuda")
         chkpt = {
-            k: (
-                torch.distributed.tensor.distribute_tensor(v, world_mesh, src_data_rank=None)
-                if not k.startswith(pns)
-                else v
+            key: (
+                torch.distributed.tensor.distribute_tensor(tensor, world_mesh, src_data_rank=None)
+                if not any(key_not_sharded in key for key_not_sharded in keys_not_sharded)
+                else tensor
             )
-            for pns in prefixes_not_sharded
-            for k, v in chkpt.items()
+            for key, tensor in chkpt.items()
         }
         model.load_state_dict(
-            {k: v for k, v in chkpt.items() if not any(k.startswith(prefix) for prefix in skip_load_prefixes)}
+            {
+                key: tensor
+                for key, tensor in chkpt.items()
+                if not any(skip_load_key in key for skip_load_key in skip_load_keys)
+            }
         )
     else:  # DCP checkpoint
         load_checkpoint(ckpt_dir=checkpoint_path, model=model, process_group=process_group)
