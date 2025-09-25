@@ -4,7 +4,9 @@
 # the terms of the DINOv3 License Agreement.
 
 import random
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
+import numpy as np
 import torch
 
 
@@ -23,7 +25,7 @@ def collate_data_and_cast(
 
     collated_global_crops = torch.stack(
         [s[0]["global_crops"][i] for i in range(n_global_crops) for s in samples_list]
-    )  # [n_global_crops, B, ...]
+    )  # [n_global_crops * B, ...]
     collated_local_crops = torch.stack([s[0]["local_crops"][i] for i in range(n_local_crops) for s in samples_list])
     if "gram_teacher_crops" in samples_list[0][0]:
         collated_gram_teacher_crops = torch.stack(
@@ -76,6 +78,72 @@ def collate_data_and_cast(
     if collated_gram_teacher_crops is not None:
         out["collated_gram_teacher_crops"] = collated_gram_teacher_crops.to(dtype)
     return out
+
+
+def collate_cholec80_data(
+    samples_list: Sequence[Dict[str, Any]],
+    mask_ratio_tuple: Tuple[float, float],
+    mask_probability: float,
+    dtype: torch.dtype,
+    n_tokens: Optional[int] = None,
+    mask_generator=None,
+    random_circular_shift: bool = False,
+    local_batch_size: Optional[int] = None,
+) -> Dict[str, Any]:
+    """Collate function tailored for the Cholec80 dataset.
+
+    The function mirrors :func:`collate_data_and_cast` by first collating the
+    multi-crop augmentation outputs (one entry per clip frame) and then stacking
+    the clip-aware tensors (mask, depth, RGB, CoTracker metadata) so that the
+    leading dimension corresponds to the batch size ``B``.
+    """
+
+    if not samples_list:
+        raise ValueError("Expected a non-empty list of samples for collation.")
+
+    clip_lengths = [sample["clip_length"] for sample in samples_list]
+    clip_length = clip_lengths[0]
+    if any(length != clip_length for length in clip_lengths[1:]):
+        raise ValueError("All Cholec80 samples in the batch must share the same clip length.")
+
+    frame_samples: List[Tuple[Dict[str, Any], Optional[Any]]] = []
+    for sample in samples_list:
+        transforms = sample.get("transforms")
+        if transforms is None or len(transforms) != clip_length:
+            raise ValueError("Cholec80 sample must carry a per-frame transforms tuple matching clip length.")
+        for frame_transform in transforms:
+            frame_samples.append((frame_transform, None))
+
+    collated = collate_data_and_cast(
+        frame_samples,
+        mask_ratio_tuple=mask_ratio_tuple,
+        mask_probability=mask_probability,
+        dtype=dtype,
+        n_tokens=n_tokens,
+        mask_generator=mask_generator,
+        random_circular_shift=random_circular_shift,
+        local_batch_size=local_batch_size,
+    )
+
+    mask_clip = torch.from_numpy(np.stack([sample["mask_clip"] for sample in samples_list], axis=0))
+    depth_clip = torch.from_numpy(np.stack([sample["depth_clip"] for sample in samples_list], axis=0))
+    rgb_clip_tensor = torch.stack([sample["rgb_clip_tensor"] for sample in samples_list], dim=0)
+    tracks = torch.from_numpy(np.stack([sample["tracks"] for sample in samples_list], axis=0))
+    visibility = torch.from_numpy(np.stack([sample["visibility"] for sample in samples_list], axis=0))
+    clip_length_tensor = torch.tensor(clip_lengths, dtype=torch.long)
+
+    collated.update(
+        {
+            "mask_clip": mask_clip,
+            "depth_clip": depth_clip,
+            "rgb_clip_tensor": rgb_clip_tensor,
+            "tracks": tracks,
+            "visibility": visibility,
+            "clip_length": clip_length_tensor,
+        }
+    )
+
+    return collated
 
 
 # def get_batch_subset(collated_data_batch, target_bs):
